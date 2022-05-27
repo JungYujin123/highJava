@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<link rel="stylesheet"href="../css/outstyle.css">
+<style>
+div{
+box-sizing: border-box;
+margin: 2px;
+padding:2px;
+clear: both;
+}
+#d1{
+background-color:rgb(159, 0, 0);
+height: 135px;
+clear: both;
+}
+#d2{
+background-color: rgb(159, 0, 0);
+opacity:0.8;
+height: clac(10% - 10px);
+text-align:center;
+}
+#d3{
+background-color: rgb(49, 98, 52);
+opacity:0.8;
+width:20%;
+float: left; 
+text-align:left;
+padding-right: 8px;
+}
+#d4{
+width:60%;
+}
+iframe{
+width: 100%;
+height: 100%;
+border: 10;
+}
+#d5{
+float: right;
+width:20%;
+background-color: rgb(49, 98, 52);
+opacity:0.8;
+}
+#d6{
+background-color:rgb(159, 0, 0);
+clear: both;
+opacity:0.8;
+font-size: xx-small;
+text-align:center;
+clear: both;
+}
+ #ul1{
+padding: 6px;
+} 
+a{
+padding: 6px;
+} 
+.b{
+border: 1px solid gray;
+list-style-image: none;
+background-color : rgb(49, 98, 52);
+padding : 8px;
+}
+ img{
+ width:100%;
+ height:100%;
+} 
+.content{
+	outline:1px dotted red;
+	display:flex;
+	width:1200px;
+	height:calc(100vh - 220px);
+	margin:0 auto;
+}
+/* #ul1 li  */
+a{
+	color:gold;
+	text-decoration:none; 
+}
+
+
+
+</style>
+</head>
+<body>
+<div class="wrap">
+ <div id="d1">
+ <img src="../images/메인헤더.jpg">
+ </div>
+ 
+ <div id="d2">
+ <input type="button" value="Home" onclick="alert">
+ <input type="button" value="SHOPPING ABOUT" onclick="alert">
+ <input type="button" value="NEWS" onclick="alert">
+ <input type="button" value="MY ACCOUNT" onclick="alert">
+ <input type="button" value="CONTACTS" onclick="alert">
+ </div>
+ 
+ <div class="content">
+ 
+ <div id="d3">
+ <ul id="ul1">
+ <li class="b" type="none"><a href="computer.html" target="ifrm">컴퓨터</a></li>
+ <li class="b" type="none"><a href="cloth.html" target="ifrm" align="middle">의류</a></li>
+ <li class="b" type="none"><a href="music.html" target="ifrm">음악</a></li>
+ <li class="b" type="none"><a href="movie.html" target="ifrm">영화</a></li>
+ <li class="b" type="none"><a href="스포츠.html" target="ifrm">스포츠/레저</a></li>
+ <li class="b" type="none"><a href="가구.html" target="ifrm">가구/인테리어</a></li>
+ <li class="b" type="none"><a href="식품.html" target="ifrm">식품</a></li>
+ </ul>
+ </div>
+ 
+ <div id = "d4">
+  <iframe src ="computer.html" name="ifrm" align="middle"></iframe>
+ </div>
+ 
+ <div id = "d5">
+ <h3>Sopping Cart</h3>
+ <h6>현재 쇼핑카드에 물품이 없습니다.</h6>
+ <a href="장바구니.html" target="ifrm">쇼핑카트 보기</a>
+ <br>
+ <p><h3>Log In</h3></p>
+   <label for="ID">아이디</label><br>
+   <input name="ID" maxlength="5" required> <br>
+   <label for="PW">패스워드</label><br>
+   <input name="PW" maxlength="5" required> <br>
+   <br>
+   <input type="button" value="로그인" onclick="alert">
+   <input type="reset"> <br>
+   <a href="회원가입.html" target="ifrm">회원가입</a>
+   <a href="" target="_blank">비밀번호 분실</a>
+ </div>
+ 
+ </div>
+ 
+ <div id = "d6">
+   <p>2021.12.08    대덕인재개발원 042-1234-5978</p>
+ </div>
+</div>
+<script>
+var v_lis = document.querySelectorAll("#ul1 li a")
+
+var v_init=true;
+function f_blink(){
+	for(var i=0; i< v_lis.length; i++){
+		if(v_init){
+			v_lis[i].style.visibility="hidden";
+		}else {
+			v_lis[i].style.visibility="visible";
+		}
+	}
+	v_init=!v_init;
+	setTimeout(() => {
+		f_blink();		
+	}, 500);
+}
+
+f_blink();
+</script>
+
+</body>
+</html>

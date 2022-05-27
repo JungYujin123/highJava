@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap
+         PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+         "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="notice">         
+<!--
+   이 영역에 SQL문에 맞는 태그를 사용하여 SQL문을 작성한다.
+   
+   사용할 수 있는 기본적인 태그들
+   <select> ~~~ </select>
+   <insert> ~~~ </insert>
+   <update> ~~~ </update>
+   <delete> ~~~ </delete>
+   
+   위 태그에서 사용되는 속성들
+   
+   1) id속성 : 해당 태그를 호출할 때 <sqlMap>태그의 namespace와 연결하여 사용하는 이름.
+   2) parameterClass속성 : SQL문에 사용될 데이터가 들어있는 객체를 지정한다.
+                     (보통 VO클래스, 자바의 자료형이름 등이 사용된다.)
+                     (typeAlias로 지정한 alias명을 사용할 수있다.)
+   3) resultClass속성 : select문을 실행한 결과를 담을 객체를 지정한다.
+                      (보통 VO클래스나 자바의 자료형이름을 사용한다.)
+   4) resultMap속성 : 결과 레코드 컬럼명과 VO객체의 property명이 다를 경우에 적절한 매핑을 위해 사용한다.
+    
+ -->
+ <insert id="insert" parameterClass="kr.or.ddit.member.vo.NoticeVO">
+    INSERT INTO JDBC_BOARD
+    (BOARD_NO,BOARD_TITLE,BOARD_WRITER,BOARD_DATE,BOARD_CONTENT)
+    VALUES (board_seq.nextVal, #boardTitle#, #boardWriter#, SYSDATE, #boardContent#)
+ </insert>
+ 
+ <update id="update" parameterClass="kr.or.ddit.member.vo.NoticeVO">
+ UPDATE JDBC_BOARD    
+    SET BOARD_TITLE = #boardTitle#,
+        BOARD_CONTENT = #boardContent#
+  WHERE BOARD_WRITER = #boardWriter#  
+ </update>
+ 
+ <delete id="delete" parameterClass="String">
+  DELETE 
+  FROM JDBC_BOARD 
+  WHERE BOARD_WRITER = #boardWriter#
+  
+ </delete>
+ 
+
+<!--   방법1
+ <select id="getAllList" resultClass="kr.or.ddit.member.vo.NoticeVO"> 
+   select BOARD_NO as boardNo
+          ,BOARD_TITLE as boardTitle
+          ,BOARD_WRITER as boardWriter
+          ,BOARD_DATE as boardDate
+           ,BOARD_CONTENT as boardContent
+       from JDBC_BOARD 
+       
+       //컬럼이름 속성이름 같으면 어긋날 가능성 있어 방법2로 랩핑처리
+ </select> -->
+ 
+ <!--    방법2 -->
+ <resultMap  id="notMap" class="kr.or.ddit.member.vo.NoticeVO">
+ 
+ 
+ <result property="boardNo" column="BOARD_NO"/>
+  <result property="boardTitle" column="BOARD_TITLE"/>
+  <result property="boardWriter" column="BOARD_WRITER"/>
+  <result property="boardDate" column="BOARD_DATE"/>
+  <result property="boardContent" column="BOARD_CONTENT"/>
+  
+  
+ </resultMap>
+ 
+ 
+ <select id="getAllList" resultMap="notMap">
+   select *
+       from JDBC_BOARD
+       
+ </select>
+ 
+ 
+ 
+<!--  <select id="getMember" resultMap="memMap" parameterClass="String"> parameterClass생략가능이나 resultClass는 생략불가
+    select * from JDBC_BOARD where mem_id = #memId#
+    
+ </select> -->
+ 
+ <select id="check" parameterClass="String" resultClass="int">
+ 
+ SELECT COUNT(*) as cnt from JDBC_BOARD
+   where BOARD_WRITER = #boardWriter#
+ 
+ </select>
+ 
+ <select id="search" parameterClass="notVO" resultMap="notMap">
+           <!-- 다이나믹쿼리?? -->
+           
+            select * 
+            from JDBC_BOARD
+            where 1=1
+            
+            <isNotEmpty property="boardNo">
+               and BOARD_NO =#boardNo# <!-- 비어있지 않으면 사용, 비어있으면 생략 -->
+            </isNotEmpty>
+            
+              <isNotEmpty property="boardTitle">
+               and BOARD_TITLE =#boardTitle# <!-- 비어있지 않으면 사용, 비어있으면 생략 -->
+            </isNotEmpty>
+            
+              <isNotEmpty property="boardWriter">
+               and BOARD_WRITER =#boardWriter# <!-- 비어있지 않으면 사용, 비어있으면 생략 -->
+            </isNotEmpty>
+            
+              <isNotEmpty property="boardDate">
+               and BOARD_DATE like '%' || #boardDate# ||'%' <!-- 비어있지 않으면 사용, 비어있으면 생략 -->
+            </isNotEmpty>
+            
+             <isNotEmpty property="boardContent">
+               and BOARD_CONTENT like '%' || #boardContent# ||'%' <!-- 비어있지 않으면 사용, 비어있으면 생략 -->
+            </isNotEmpty>
+            
+       
+ 
+ </select>
+ 
+ 
+</sqlMap>      
+
